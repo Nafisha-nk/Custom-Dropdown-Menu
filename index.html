@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Dropdown</title>
+    <style> 
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dropdown {
+            position: relative;
+            width: 220px;
+        }
+
+        .dropdown-btn {
+            width: 100%;
+            padding: 10px 14px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-btn span.placeholder {
+            color: #999;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            margin-top: 6px;
+            list-style: none;
+            padding: 0;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-list.show {
+            display: block;
+        }
+
+        .dropdown-list li {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        .dropdown-list li:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown-list li.selected {
+            background: #e5e7eb;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dropdown">
+        <div class="dropdown-btn" id="dropdown-btn">
+            <span class="placeholder">Select an option</span>
+            <span id="arrow">▼</span>
+        </div>
+        <ul class="dropdown-list" id="dropdown-list">
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+            <li>Option 4</li>
+        </ul>
+    </div>
+
+    <script>
+        const btn = document.getElementById("dropdown-btn");
+        const list = document.getElementById("dropdown-list");
+        const arrow = document.getElementById("arrow");
+        const items = list.querySelectorAll("li");
+        const placeholder = btn.querySelector("span");
+
+        btn.addEventListener("click", () => {
+            list.classList.toggle("show");
+            arrow.textContent = list.classList.contains("show") ? "▲" : "▼";
+        });
+
+        items.forEach(item => {
+            item.addEventListener("click", () => {
+                items.forEach(i => i.classList.remove("selected"));
+                item.classList.add("selected");
+                placeholder.textContent = item.textContent;
+                placeholder.classList.remove("placeholder");
+                list.classList.remove("show");
+                arrow.textContent = "▼";
+            });
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener("click", (e) => {
+            if (!btn.contains(e.target) && !list.contains(e.target)) {
+                list.classList.remove("show");
+                arrow.textContent = "▼";
+            }
+        });
+    </script>
+</body>
+
+</html>
